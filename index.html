@@ -2,16 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ford Lease & Incentives Overlay Tool</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <title>Ford Finance & Incentives Overlay Tool</title>
     <style>
-        :root { 
-            --brand-black: #000000; 
-            --bg-gray: #f0f2f5; 
+        @font-face {
+            font-family: 'Ford Antenna Cond';
+            src: url('fonts/FordAntennaCondWGL-Med.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
         }
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
+        @font-face {
+            font-family: 'Ford Antenna Cond';
+            src: url('fonts/FordAntennaCondWGL-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Ford Antenna Cond';
+            src: url('fonts/FordAntennaCondWGL-Black.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        :root {
+            --brand-black: #000000;
+            --bg-gray: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Ford Antenna Cond', 'Arial Narrow', sans-serif;
             background: var(--bg-gray); 
             display: flex; 
             flex-direction: column; 
@@ -99,7 +117,7 @@
 <body>
 
 <div class="container">
-    <h2>Ford Overlay Tool Lease and Incentives</h2>
+    <h2>Ford Overlay Tool Finance and Incentives</h2>
 
     <div class="controls">
         <div class="field-group">
@@ -133,14 +151,20 @@
     let templateImg = new Image();
     templateImg.src = "template.png";
 
-    templateImg.onload = () => draw();
+    let templateReady = false;
+    templateImg.onload = () => { templateReady = true; draw(); };
+
+    // Preload the Ford font so the first canvas draw uses it, not a fallback
+    document.fonts.load(`900 ${FONT_SIZE}px "Ford Antenna Cond"`).then(() => {
+        if (templateReady) draw();
+    });
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(templateImg, 0, 0, 1280, 960);
 
         ctx.fillStyle = "white";
-        ctx.font = `800 ${FONT_SIZE}px 'Poppins'`;
+        ctx.font = `900 ${FONT_SIZE}px 'Ford Antenna Cond', 'Arial Narrow', sans-serif`;
         ctx.textBaseline = "middle";
 
         if (rateInput.value.trim() !== "") {
@@ -175,5 +199,4 @@
 </script>
 </body>
 </html>
-
 
